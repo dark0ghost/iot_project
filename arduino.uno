@@ -1,6 +1,37 @@
-String host = " ";
+#include <math.h>
+
+
 #define Temp A4
 #define LUX A5
+
+class Res{
+  private:
+   String hosts = " ";
+  public:
+   float  temp, lux;
+   
+   void read(){
+   temp = analogRead(Temp)* 5.0 /1024.0;
+   temp = -14.46 * log((10000.0 * temp)/(5.0 - temp)/ 27074.0);
+    lux = analogRead(LUX); 
+  
+  }
+   void push(int temp,int lux){
+  
+  Serial.println(hosts+"/save?"+"lux= "+lux+"&"+"val= "+temp);
+}
+   void warning(String warn){
+    Serial.println(hosts+"/send?text="+warn+"&"+"token="+"key=");  
+}
+
+  
+};
+
+
+
+
+Res re;
+
 void setup() {
 
 
@@ -10,18 +41,11 @@ Serial.begin(115200);
 }
 
 void loop() {
+re.read();
+delay(100);
+re.push(re.temp,re.lux);
+delay(600000);
+
+
 
 }
-
-void push(int temp,int lux){
-  
-  Serial.println(host+"/save?"+"lux="+lux+"&"+"val="+temp);
-}
-void warning(String warn){
-    Serial.println(host+"/send?text="+warn+"&"+"token= "+"key="); // i use host https://github.com/dark0ghost/dj-hook  
-}
-void read_ (){
- int  temp = analogRead(Temp); 
-  int  lux = analogRead(LUX); 
-  return temp,lux;
-  }
