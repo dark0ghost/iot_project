@@ -25,7 +25,7 @@ class Res{
    void warning(String warn){
     Serial.println(hosts+"/send?text="+warn+"&"+"token="+"key=");  
 }
-     void push_mail():
+    void push_mail(){
      Serial.println(host + "send_push/?mail="+mail+"&"+"key=")
 }
 
