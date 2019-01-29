@@ -7,6 +7,8 @@
 class Res{
   private:
    String hosts = " ";
+   String mail = " ";
+   
   public:
    float  temp, lux;
    
