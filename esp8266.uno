@@ -30,9 +30,9 @@ void loop() {
        return; // Если нет соединения - выходим из функции
     }
 
-    String url ="host";
+    
     HTTPClient request;
-    request.begin(url);
+    request.begin(read_s);
     Serial.println("send mail");
     request.end();
 }
