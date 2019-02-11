@@ -2,7 +2,7 @@
 #include <ESP8266HTTPClient.h>
 
 const char* ssid = "name hotstop";
-const char* password = "wifi password";
+const char* password = "password hotstop";
 
 String read_s;
 
@@ -13,19 +13,16 @@ String read_s;
   public:
   void send_m(String re){
 
-    
-    http.begin(re);//Specify request destination
-    
-    Serial.println("send mail");
-    Serial.println(re);
-     
-    http.GET();            //Send the request
-     
+   
  
-
-  Serial.println(http.getString());  //Get the response payload
-  
-  http.end();
+    http.begin(re);  //Specify request destination
+    int httpCode = http.GET();                                                                  //Send the request
+ 
+    if (httpCode > 0) { //Check the returning code
+      String payload = http.getString();   //Get the request response payload
+      Serial.println(payload);                     //Print the response payload
+    }
+    http.end();   //Close connection
   
 }
   
