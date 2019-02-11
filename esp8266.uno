@@ -1,9 +1,36 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "name wifi";
-const char* password = "password";
+const char* ssid = "name hotstop";
+const char* password = "wifi password";
 
+String read_s;
+
+ class check {
+  
+  private:
+  HTTPClient http;
+  public:
+  void send_m(String re){
+
+    
+    http.begin(re);//Specify request destination
+    
+    Serial.println("send mail");
+    Serial.println(re);
+     
+    http.GET();            //Send the request
+     
+ 
+
+  Serial.println(http.getString());  //Get the response payload
+  
+  http.end();
+  
+}
+  
+  };
+check check1;
 void setup() {
   Serial.begin(115200);
   WiFi.mode(WIFI_STA); 
@@ -16,7 +43,7 @@ void setup() {
 }
 
 
-String read_s;
+
 
 void loop() {
     if(Serial.available() == 0) return;  
@@ -31,23 +58,6 @@ void loop() {
        return; // Если нет соединения - выходим из функции
     }
 
- send_m();
-}
-
-void send_m(){
-
-    HTTPClient http;
-    http.begin(read_s);
-    Serial.println("send mail");
-     Serial.println(read_s);
-     
-  http.begin( read_s);     //Specify request destination
-  
-  int httpCode = http.GET();            //Send the request
-  String payload = http.getString();    //Get the response payload
+check1.send_m(read_s);
  
-  Serial.println(httpCode);   //Print HTTP return code
-  Serial.println(payload);
-    http.end();
-  
 }
