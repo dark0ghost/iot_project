@@ -1,14 +1,18 @@
 
+#include <SoftwareSerial.h>
 #include <math.h>
 
 #define button 7
 #define Temp A4
 #define LUX A5
 
+SoftwareSerial esp8266(4,5);
+
+
 class Res{
   private:
-   String hosts = "host";
-   String mail = "mail";
+   String hosts = " ";
+   String mail = " ";
    
   public:
    float  temp, lux;
@@ -22,18 +26,19 @@ class Res{
    void push(int temp,int lux){
   
   Serial.println(hosts+"/save?"+"lux="+lux+"&"+"val="+temp);
-  delay(6000);
+  esp8266.println(hosts+"/save?"+"lux="+lux+"&"+"val="+temp);
 }
    void warning(String warn){
     Serial.println(hosts+"/send?text="+warn+"&"+"token="+"key=");  
+    esp8266.println(hosts+"/send?text="+warn+"&"+"token="+"key=");
 }
     void push_mail(){
      Serial.println(hosts + "/send_push/?mail="+mail+"&"+"key=String");
-}
+      esp8266.println(hosts + "/send_push/?mail="+mail+"&"+"key=String");
+    }
 
   
 };
-
 
 
 
@@ -41,8 +46,8 @@ Res re;
 
 void setup() {
 
-pinMode(button,INPUT_PULLUP);
-Serial.begin(115200);
+  pinMode(button,INPUT_PULLUP);
+  Serial.begin(115200);
 
 
 }
@@ -53,11 +58,11 @@ re.read();
 
 delay(100);
 
-re.push(re.temp,re.lux);
+ re.push(re.temp,re.lux);
 
-
-if (!digitalRead(button)){
-re.push_mail();
-}
-
+  delay(100);
+  if (!digitalRead(button)){
+       re.push_mail();
+      }
+delay(600);
 }
