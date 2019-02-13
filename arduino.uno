@@ -7,7 +7,7 @@
 #define LUX A5
 
 SoftwareSerial esp8266(4,5);
-
+unsigned long timing;
 
 class Res{
   private:
@@ -55,16 +55,17 @@ void setup() {
 }
 
 void loop() {
-  
-re.read();
+ 
+if (millis()-timing>=6000){
+  timing = millis();
+  re.read();
+  re.push(re.temp,re.lux);
 
-delay(100);
+}
 
- re.push(re.temp,re.lux);
-
-  delay(100);
-  if (!digitalRead(button)){
-       re.push_mail();
-      }
-delay(6000);
+if (esp8266.available()>0 ) {
+  Serial.println( esp8266.read());
+}
+ 
+}
 }
