@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "name hotstop";
-const char* password = "password hotstop";
+const char* ssid = "";
+const char* password = "";
 
 String read_s;
 
@@ -10,26 +10,27 @@ String read_s;
   
   private:
   HTTPClient http;
+  String host = "";
 
   public:
   void send_m(String re){
 
  
-    http.begin(re);  //Specify request destination
+    http.begin(host+re);  //Specify request destination
     int httpCode = http.GET();                                                                  //Send the request
  
     if (httpCode > 0) { //Check the returning code
       String payload = http.getString();   //Get the request response payload
-      Serial.println(httpCode);                     //Print the response payload
+      Serial.println(httpCode); 
+       Serial.println(host+re);//Print the response payload
     }
     http.end();   //Close connection
-  
-}
+  }
   
   };
 check check1;
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   WiFi.mode(WIFI_STA); 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
